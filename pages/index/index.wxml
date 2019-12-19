@@ -1,0 +1,42 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="userinfo">
+  
+    <open-data type="userAvatarUrl"></open-data>
+    <open-data type="userNickName" lang="zh_CN"></open-data>
+    <view class="btn-area">
+      <button bindtap="makeRequest" type="primary" disabled="{{buttonDisabled}}" loading="{{loading}}">request</button>
+    </view>
+    
+
+    <view class="section section_gap">
+      
+      <view class="section__title">{{taglist}}</view>
+
+      <radio-group class="group" bindchange="radioChange">
+        <view class="label-2">
+          <radio id="name" value="v" checked="true"></radio>
+          <label class="label-2__text" for="name"><text>name</text></label>
+        </view>
+        <view class="label-2">
+          <radio id="name" value="v" checked="true"></radio>
+          <label class="label-2__text" for="name"><text>name</text></label>
+        </view>
+        <view class="label-2">
+          <radio id="name" value="v" checked="false"></radio>
+          <label class="label-2__text" for="name"><text>name3</text></label>
+        </view>
+      </radio-group>
+
+    </view>
+
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+</view>
