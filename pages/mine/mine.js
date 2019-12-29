@@ -1,4 +1,4 @@
-// pages/folder/m y pa ge.js
+// pages/mine/mine.js
 Page({
 
   /**

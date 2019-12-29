@@ -1,42 +1,30 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="userinfo">
-  
-    <open-data type="userAvatarUrl"></open-data>
-    <open-data type="userNickName" lang="zh_CN"></open-data>
-    <view class="btn-area">
-      <button bindtap="makeRequest" type="primary" disabled="{{buttonDisabled}}" loading="{{loading}}">request</button>
-    </view>
-    
-
-    <view class="section section_gap">
-      
-      <view class="section__title">{{taglist}}</view>
-
-      <radio-group class="group" bindchange="radioChange">
-        <view class="label-2">
-          <radio id="name" value="v" checked="true"></radio>
-          <label class="label-2__text" for="name"><text>name</text></label>
-        </view>
-        <view class="label-2">
-          <radio id="name" value="v" checked="true"></radio>
-          <label class="label-2__text" for="name"><text>name</text></label>
-        </view>
-        <view class="label-2">
-          <radio id="name" value="v" checked="false"></radio>
-          <label class="label-2__text" for="name"><text>name3</text></label>
-        </view>
-      </radio-group>
-
-    </view>
-
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
+  <!--  wxef0519d42d63eaf7   8ac05353cf3caf74c80e47db9dc01c67  -->
+  <!--<navigator url="../add/add" hover-class="navigator-hover">-->
+  <view class="button-wrapper">
+    <button type="primary" bindtap="addDevice">添加设备</button>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+
+  <!--<navigator url="../device/add/add?title=navigate" hover-class="navigator-hover">-->
+    <!--<button type="default">跳转到新页面</button>-->
+  <!--</navigator>-->
+  <!--</navigator>-->
+  <!--<button type='primary' bindtap='getOpenid'>获取用户openid</button><text>{{openid}}</text>-->
+
+
+  <view class="section">
+	  <view class="flex-wrp"  style="height: 300px;flex-direction:column;" >
+        <!--<view class="flex-item bc_bule">1</view>-->
+        <!--<view class="flex-item bc_red">2</view>-->
+		<view  wx:for="{{deviceList}}" wx:for-item="device" data-index="{{index}}" class="flex-item bc_blue" style="height: 100px;width:300px;flex-direction:column;"
+			bindtap='chooseDevice'>
+            [{{index}}]{{device.name}} {{device.admin}}
+		  <!--<text>[{{index}}]{{device.name}}</text>-->
+		  <!--<text>{{device.admin}}</text>-->
+		</view>
+      </view>
   </view>
+
+
 </view>

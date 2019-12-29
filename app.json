@@ -2,15 +2,35 @@
   "pages": [
     "pages/index/index",
     "pages/logs/logs",
-    "pages/m y pa ge",
-    "pages/folder/m y pa ge",
-    "pages/folder/mypage"
+    "pages/device/add/add",
+    "pages/mine/mine",
+    "pages/device/device"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "WeChat",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#dddddd",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "image/icon_component.png",
+        "selectedIconPath": "image/icon_component_HL.png",
+        "text": "设备"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "iconPath": "image/icon_API.png",
+        "selectedIconPath": "image/icon_API_HL.png",
+        "text": "接口"
+      }
+    ]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"
