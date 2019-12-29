@@ -53,8 +53,21 @@ wx.getSetting({
 		}
 	}
 })
+},
+getDeviceList:function(){
+	var url = app.globalData.server+'userDevices?phone='+app.globalData.phone
+	console.log('request devices')
+	var that = this
+	wx.request({
+		url: url,
+		success: function (result) {
+			console.log('onLoad:', result);
+			that.setData({
+				deviceList: result.data.deviceList
+			})
+		}
+	})
 }
-
 
 
 })
