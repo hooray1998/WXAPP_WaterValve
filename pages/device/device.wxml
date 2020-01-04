@@ -3,22 +3,133 @@
 <!-- 组件显示，根据自己需求添加 -->
 <view hidden="{{currentTab == 0? false: true}}">
 
-     {{deviceInfo.openDegree}} 
+    <view class="weui-cells weui-cells_after-title">
 
-    <component_info/>
+        <view class="weui-cell weui-cell_example weui-cell_access" hover-class="weui-cell_active" bindtap="tapPosition">
+            <view class="weui-cell__hd">
+                <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+            </view>
+            <view class="weui-cell__bd">开度</view>
+            <view class="weui-cell__ft  weui-cell__ft_in-access">{{deviceInfo.position}}%</view>
+        </view>
+        <modal hidden="{{hidePosition}}" title="设备开度" confirm-text="修改" cancel-text="取消" bindcancel="cancelPosition" bindconfirm="confirmPosition"> 
+            <slider value="{{deviceInfo.position}}" name="slider" bindchange='getValue' show-value ></slider>
+        </modal>
+        <view class="weui-cell weui-cell_example ">
+            <view class="weui-cell__hd">
+                <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+            </view>
+            <view class="weui-cell__bd">开关状态</view>
+            <picker bindchange="bindPickerChange" value="{{deviceInfo.ioState}}" range="{{array}}">
+                <view class="weui-cell__ft weui-cell__ft_in-access">{{deviceInfo.ioState==1?'关闭':'打开'}}</view>
+            </picker>
+        </view>
+        <view class="weui-cell weui-cell_access weui-cell_example " bindtap="tapAccuracy">
+            <view class="weui-cell__hd">
+                <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+            </view>
+            <view class="weui-cell__bd">精度</view>
+            <view class="weui-cell__ft  weui-cell__ft_in-access">{{deviceInfo.accuracy}}</view>
+        </view>
+        <modal hidden="{{hideAccuracy}}" title="精度" confirm-text="修改" cancel-text="取消" bindcancel="cancelAccuracy" bindconfirm="confirmAccuracy"> 
+            <slider value="{{deviceInfo.accuracy}}" name="slider" bindchange='getValue' show-value ></slider>
+        </modal>
+        <view class="weui-cell weui-cell_example ">
+            <view class="weui-cell__hd">
+                <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+            </view>
+            <view class="weui-cell__bd">状态</view>
+            <view class="weui-cell__ft">{{deviceInfo.state}}</view>
+        </view>
+        <view class="weui-cell weui-cell_example ">
+            <view class="weui-cell__hd">
+                <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+            </view>
+            <view class="weui-cell__bd">网络</view>
+            <view class="weui-cell__ft">{{deviceInfo.network}}</view>
+        </view>
+        <view class="weui-cell weui-cell_example ">
+            <view class="weui-cell__hd">
+                <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+            </view>
+            <view class="weui-cell__bd">故障</view>
+            <view class="weui-cell__ft">{{deviceInfo.error}}</view>
+        </view>
+    </view>
+
 </view>
 <view hidden="{{currentTab == 1? false: true}}">
+
+        <view class="page__hd">
+            <text class="page__title">{{admin?'管理员':'普通用户'}}</text>
+        </view>
+
+
+        <view class="weui-cell weui-cell_example ">
+            <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
+            <view class="weui-cell__bd">设备名</view>
+            <view class="weui-cell__ft">{{deviceConfig.name}}</view>
+        </view>
+
+        <view class="weui-cell weui-cell_example " bindtap='tapRemarkName'>
+            <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
+            <view class="weui-cell__bd">备注名</view>
+            <view class="weui-cell__ft">{{deviceConfig.remarkName}}</view>
+        </view>
+        <modal hidden="{{hideRemarkName}}" title="请输入备注名" confirm-text="提交" cancel-text="取消" bindcancel="cancelRemarkName" bindconfirm="confirmRemarkName"> 
+            <input type='text' value="{{deviceConfig.remarkName}}" bindinput='getText' auto-focus/>
+        </modal>
+        <view class="weui-cell weui-cell_example ">
+            <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
+            <view class="weui-cell__bd">序列号</view>
+            <view class="weui-cell__ft">{{deviceConfig.serialNum}}</view>
+        </view>
+        <view class="weui-cell weui-cell_example ">
+            <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
+            <view class="weui-cell__bd">备注信息</view>
+            <view class="weui-cell__ft">{{deviceConfig.remark}}</view>
+        </view>
+        <view hidden="{{admin?false:true}}" class="weui-cell weui-cell_example ">
+            <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
+            <view class="weui-cell__bd">访问控制</view>
+            <view class="weui-cell__ft"><switch disabled="{{deviceConfig.accessCtrl}}" bindchange='openAccessCtrl' checked="{{deviceConfig.accessCtrl}}"/></view>
+        </view>
+        <view class="weui-cell weui-cell_example " bindtap='tapPassword'>
+            <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
+            <view class="weui-cell__bd">控制密码</view>
+            <view hidden="{{admin}}" class="weui-cell__ft">{{deviceConfig.pAccess==1?'已生效':'未填写'}}</view>
+            <view hidden="{{!admin}}" class="weui-cell__ft">{{deviceConfig.password}}</view>
+        </view>
+        <modal hidden="{{hidePassword}}" title="{{admin?'修改访问控制密码':'请输入访问控制密码'}}" confirm-text="确定" cancel-text="取消" bindcancel="cancelPassword" bindconfirm="confirmPassword"> 
+            <input type='text' bindinput='getText' auto-focus/>
+        </modal>
+
+    password:{{deviceConfig.password}},
+    source:{{deviceConfig.source}},
+    aAccess:{{deviceConfig.aAccess}},
+    pAccess:{{deviceConfig.pAccess}},
+    aPhone:{{deviceConfig.aPhone}},
+
 </view>
 <view hidden="{{currentTab == 2? false: true}}">
-</view>
 
+    
+    <view  wx:for="{{deviceLog}}" wx:for-item="log" data-index="{{index}}">
+    <text class="page__title">{{log.time}}</text>
+    <view style="flex-direction:row;" class="flex-wrp">
+      <view class="flex-item">{{log.content}}</view>
+    </view>
+    </view>
+
+
+</view>
 </view>
 
 <!-- 自定义 tabbar -->
 <view class="nav-tabs">
-  <view class="tab-list {{currentTab == idx ? 'active' : 'default' }}" wx:for="{{items}}" wx:key="prototype" wx:for-index="idx" wx:for-item="item" data-current="{{idx}}" bindtap="swichNav">
-    <text class="tab-text" wx:for-index="idx" data-current="{{idx}}" src="{{currentTab == idx ? item.selectedIconPath : item.iconPath }}">{{item.text}}</text>
-    <image class="iconPath" wx:for-index="idx" data-current="{{idx}}" src="{{currentTab == idx ? item.selectedIconPath : item.iconPath }}"></image>
-  </view>
+    <view class="tab-list {{currentTab == idx ? 'active' : 'default' }}" wx:for="{{items}}" wx:key="prototype" wx:for-index="idx" wx:for-item="item" data-current="{{idx}}" bindtap="swichNav">
+        <text class="tab-text" wx:for-index="idx" data-current="{{idx}}" src="{{currentTab == idx ? item.selectedIconPath : item.iconPath }}">{{item.text}}</text>
+        <image class="iconPath" wx:for-index="idx" data-current="{{idx}}" src="{{currentTab == idx ? item.selectedIconPath : item.iconPath }}"></image>
+    </view>
 </view>
 

@@ -1,3 +1,4 @@
+let app = getApp()
 // pages/device/add/add.js
 Page({
 
@@ -5,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+	  scanCodeMsg:''
   },
 
   /**
@@ -63,5 +64,24 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+scanCode: function() {
+  var that = this;
+  wx.scanCode({ //扫描API
+    success(res) { //扫描成功
+      console.log(res) //输出回调信息
+      that.setData({
+        scanCodeMsg: res.result
+      });
+      app.addDevice(this, {
+        serialNum: res.result,
+        source: 1,
+      })
+      wx.showToast({
+        title: '添加成功',
+        duration: 1000
+      })
+    }
+  })
+}
 })

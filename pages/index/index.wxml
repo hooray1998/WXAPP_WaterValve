@@ -1,30 +1,25 @@
 <!--index.wxml-->
 <view class="container">
-  <!--  wxef0519d42d63eaf7   8ac05353cf3caf74c80e47db9dc01c67  -->
-  <!--<navigator url="../add/add" hover-class="navigator-hover">-->
-  <view class="button-wrapper">
-    <button type="primary" bindtap="addDevice">添加设备</button>
-  </view>
-
-  <!--<navigator url="../device/add/add?title=navigate" hover-class="navigator-hover">-->
-    <!--<button type="default">跳转到新页面</button>-->
-  <!--</navigator>-->
-  <!--</navigator>-->
-  <!--<button type='primary' bindtap='getOpenid'>获取用户openid</button><text>{{openid}}</text>-->
-
-
-  <view class="section">
-	  <view class="flex-wrp"  style="height: 300px;flex-direction:column;" >
-        <!--<view class="flex-item bc_bule">1</view>-->
-        <!--<view class="flex-item bc_red">2</view>-->
-		<view  wx:for="{{deviceList}}" wx:for-item="device" data-index="{{index}}" class="flex-item bc_blue" style="height: 100px;width:300px;flex-direction:column;"
-			bindtap='chooseDevice'>
-            [{{index}}]{{device.name}} {{device.admin}}
-		  <!--<text>[{{index}}]{{device.name}}</text>-->
-		  <!--<text>{{device.admin}}</text>-->
-		</view>
-      </view>
-  </view>
-
-
+    <!--  wxef0519d42d63eaf7   8ac05353cf3caf74c80e47db9dc01c67  -->
+    <view class="button-wrapper">
+        <button type="primary" bindtap="addDevice">添加设备</button>
+    </view>
+    <!--<view class="weui-panel weui-panel_access">-->
+            <view class="weui-panel__hd">我的设备列表</view>
+            <view class="weui-panel__bd">
+                <view wx:for="{{deviceList}}" wx:for-item="device" data-index="{{index}}" class="flex-item bc_blue" bindtap='chooseDevice' class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                        <image class="weui-media-box__thumb" src="/image/sf.jpg" />
+                    </view>
+                        
+                    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                        <view class="weui-media-box__title">{{device.remarkName}}</view>
+                        <view class="weui-media-box__title">{{device.name}}</view>
+                        <view class="weui-media-box__desc">开度:{{device.position}}%</view>
+                        <view class="weui-media-box__desc">状态: <icon type="{{device.state==0? 'success':'warn'}}" size="23"></icon>     可控制: <icon type="{{device.ctrl? 'success':'cancel'}}" size="23"></icon></view>
+                        <view class="weui-media-box__desc">管理员:{{device.admin}}</view>
+                        
+                    </view>
+                </view>
+            </view>
 </view>

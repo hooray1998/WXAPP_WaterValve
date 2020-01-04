@@ -1,2 +1,9 @@
 <!--pages/device/add/add.wxml-->
-<text>pages/device/add/add.wxml</text>
+<view class="container">
+<view class='form-list'>
+  <text>设备序列号</text>
+  <input type='text' value='{{scanCodeMsg}}' style="width:300rpx;height:80rpx"></input>
+  <image class='scan' bindtap='scanCode' src='/image/scanCode.png' style="width:80rpx;height:80rpx"></image>
+</view>
+ 
+</view>

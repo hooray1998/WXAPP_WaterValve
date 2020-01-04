@@ -68,3 +68,24 @@ page {
   display: none;
   flex: 1;
 }
+
+.page__title{
+    display: inline-block;
+    padding: 20rpx 40rpx;
+    font-size: 32rpx;
+    color: #AAAAAA;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+
+.flex-wrp{
+  height: 40px;
+  display:flex;
+}
+
+.flex-item{
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,73 +1,235 @@
 //app.js
 App({
-globalData: {
-	userInfo: null,
-	server: 'http://192.168.1.103:8000/',
-	curDeviceId:0,
-	openid:null,
-	phone:'111'
-},
+  globalData: {
+    hasServer: false,
+    hasPhone: false,
+    code: null,
+    openid: null,
+    server: null,
+    phone: "phone_1",
 
-onLaunch: function () {
-	// 展示本地存储能力
-	var logs = wx.getStorageSync('logs') || []
-	logs.unshift(Date.now())
-	wx.setStorageSync('logs', logs)
+    deviceList: [],
+    curDeviceIndex: 0,
+    curDeviceId: 0,
+    ctrl: false,
+    admin: false,
+  },
 
-	this.globalData.openid = wx.getStorageSync('openid') || null
-	this.globalData.openid || wx.login({
-		success: res => {
-			// 发送 res.code 到后台换取 openId, sessionKey, unionId
-			//请求自己后台获取用户openid
-			console.log('#'+res.code)
-			var url = this.globalData.server+'getOpenId?code='+res.code;
-			var that = this
+  onLaunch: function() {
+    // 展示本地存储能力
+    this.globalData.hasServer = wx.getStorageSync("hasServer") || false
+    this.globalData.hasPhone = wx.getStorageSync("hasPhone") || false
+    this.globalData.server = wx.getStorageSync("server") || "192.168.1.0"
+    this.globalData.phone = wx.getStorageSync("phone") || ""
+    this.globalData.openid = wx.getStorageSync("openid") || null
+  },
+  getDeviceList: function(that) {
+    var url =
+      this.globalData.server + "userDevices?phone=" + this.globalData.phone
+    var app = this
+    console.log("request devices")
 
-			wx.request({
-				url: url,
-				success: function (result) {
-					console.log('request success:###', result,"###");
-					that.globalData.openid = result.data.openid;
-					wx.setStorageSync('openid', that.globalData.openid)
-				}
-			})
-		}
-	}),
-// 获取用户信息
-wx.getSetting({
-	success: res => {
-		if (res.authSetting['scope.userInfo']) {
-			// 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-			wx.getUserInfo({
-				success: res => {
-					// 可以将 res 发送给后台解码出 unionId
-					this.globalData.userInfo = res.userInfo
+    wx.request({
+      url: url,
+      success: function(result) {
+        console.log("getDeviceList:", result)
+        app.globalData.deviceList = result.data.deviceList
+        that.setData({
+          deviceList: result.data.deviceList,
+        })
+      },
+    })
+  },
+  getDeviceInfo: function(that) {
+    var url =
+      this.globalData.server +
+      "userDeviceInfo?phone=" +
+      this.globalData.phone +
+      "&deviceId=" +
+      this.globalData.curDeviceId
+    wx.request({
+      url: url,
+      success: function(result) {
+        console.log("request device info:###", result.data, "###")
+        that.setData({
+          deviceInfo: result.data.deviceInfo,
+        })
+      },
+    })
+  },
+  getDeviceConfig: function(that) {
+    var url =
+      this.globalData.server +
+      "userDeviceConfig?phone=" +
+      this.globalData.phone +
+      "&deviceId=" +
+      this.globalData.curDeviceId
+    wx.request({
+      url: url,
+      success: function(result) {
+        console.log("request device config:###", result.data, "###")
+        that.setData({
+          deviceConfig: result.data.deviceConfig,
+        })
+      },
+    })
+  },
+  getDeviceLog: function(that) {
+    var url =
+      this.globalData.server +
+      "deviceLog?phone=" +
+      this.globalData.phone +
+      "&deviceId=" +
+      this.globalData.curDeviceId
+    wx.request({
+      url: url,
+      success: function(result) {
+        console.log("request device log:###", result.data, "###")
+        that.setData({
+          deviceLog: result.data.log,
+        })
+      },
+    })
+  },
+  // deviceInfoCtrl   | deviceId,phone,xxx             | deviceInfo/deviceConfig  | xxx=(remarkName|name|remark|position|ioState|accuracy)
+  modifyDeviceInfo: function(that, option) {
+    var url =
+      this.globalData.server +
+      "deviceInfoCtrl?phone=" +
+      this.globalData.phone +
+      "&deviceId=" +
+      this.globalData.curDeviceId +
+      "&" +
+      option.name +
+      "=" +
+      option.value
+      var app = this
+    wx.request({
+      url: url,
+      success: function(result) {
+        console.log("request device info:###", result.data, "###")
+        that.setData({
+          deviceInfo: result.data.deviceInfo,
+          res: result.data.res
+        })
+          if(!result.data.res){
+              wx.showToast({
+                title: "控制权限已失效",
+                duration: 1000,
+              })
+            that.setData({
+              deviceConfig: result.data.deviceConfig,
+            })
+            app.globalData.deviceList[app.globalData.curDeviceIndex] = result.data.deviceRight
+          }
+      },
+    })
+  },
+  modifyDeviceConfig: function(that, option) {
+    var url =
+      this.globalData.server +
+      "deviceInfoCtrl?phone=" +
+      this.globalData.phone +
+      "&deviceId=" +
+      this.globalData.curDeviceId +
+      "&" +
+      option.name +
+      "=" +
+      option.value
+    wx.request({
+      url: url,
+      success: function(result) {
+        console.log("request device config:###", result.data, "###")
+        that.setData({
+          deviceConfig: result.data.deviceConfig,
+        })
+          if(!result.data.res){
+              wx.showToast({
+                title: "控制权限已失效",
+                duration: 1000,
+              })
+            app.globalData.deviceList[app.globalData.curDeviceIndex] = result.data.deviceRight
+          }
+      },
+    })
+  },
+  //## startAccessCtrl  | deviceId,phone                 | device
+  startAccessCtrl: function(that) {
+    var url =
+      this.globalData.server +
+      "startAccessCtrl?phone=" +
+      this.globalData.phone +
+      "&deviceId=" +
+      this.globalData.curDeviceId
+    wx.request({
+      url: url,
+      success: function(result) {
+        console.log("start access ctrl:###", result.data, "###")
+      },
+    })
+  },
+  //check('addCtrlRight', phone='phone_2', deviceId=1,source=2, aPhone='phone_1')
+  addCtrlRight: function(that, option) {
+    var url =
+      this.globalData.server +
+      "addCtrlRight?phone=" +
+      this.globalData.phone +
+      "&deviceId=" +
+      this.globalData.curDeviceId +
+      "&source=" +
+      option.source +
+      "&aPhone=" +
+      option.aPhone
+    var app = this
+    wx.request({
+      url: url,
+      success: function(result) {
+        console.log("add ctrl right:###", result.data, "###")
+        that.setData({
+          deviceConfig: result.data.deviceConfig,
+        })
+        app.globalData.deviceList[app.globalData.curDeviceIndex] =
+          result.data.deviceRight
+      },
+    })
+  },
+  //## updatePassword   | deviceId,password              | deviceConfig
+  updatePassword: function(that, option) {
+    var url =
+      this.globalData.server +
+      "updatePassword?deviceId=" +
+      this.globalData.curDeviceId +
+      "&password=" +
+      option.password
+    var app = this
+    wx.request({
+      url: url,
+      success: function(result) {
+        console.log("update Password:###", result.data, "###")
+        that.setData({
+          deviceConfig: result.data.deviceConfig,
+        })
+      },
+    })
+  },
+//## addDevice        | phone,serialNum,source         | deviceList
+    addDevice: function(that, option){
 
-					// 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-					// 所以此处加入 callback 以防止这种情况
-					if (this.userInfoReadyCallback) {
-						this.userInfoReadyCallback(res)
-					}
-				}
-			})
-		}
-	}
-})
-},
-getDeviceList:function(){
-	var url = app.globalData.server+'userDevices?phone='+app.globalData.phone
-	console.log('request devices')
-	var that = this
-	wx.request({
-		url: url,
-		success: function (result) {
-			console.log('onLoad:', result);
-			that.setData({
-				deviceList: result.data.deviceList
-			})
-		}
-	})
-}
-
-
+    var url =
+      this.globalData.server +
+      "addDevice?phone=" +
+      this.globalData.phone +
+      "&serialNum=" +
+      option.serialNum +
+      '&source=' +
+      option.source
+    var app = this
+    wx.request({
+      url: url,
+      success: function(result) {
+        console.log("add Device:###", result.data, "###")
+        app.getDeviceList(that)
+    }
+    })
+    },
 })
