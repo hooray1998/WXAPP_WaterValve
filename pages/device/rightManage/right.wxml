@@ -1,0 +1,17 @@
+<!--pages/device/rightManage/right.wxml-->
+<view class="weui-panel__hd">用户权限列表</view>
+
+
+      <checkbox-group bindchange="checkboxChange">
+      <view class="weui-cells weui-cells_after-title"  wx:for="{{rightList}}">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">{{item.phone}}</view>
+                <view class="weui-cell">{{item.aAccess}}</view>
+                <view class="weui-cell__ft">{{item.pAccess}}</view>
+                  <checkbox name="{{item.phone}}" checked="false"/>
+            </view>
+    </view>
+        <!--<label class="checkbox">-->
+        <!--</label>-->
+      </checkbox-group>
+      <button hidden="chooseDevice.length==0?'true':'false'" bindtap='delCheckDevice'>删除所选</button>

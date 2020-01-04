@@ -8,6 +8,7 @@ Page({
         status:''
     },
     onLoad: function () {
+        console.log('onload mine:')
         this.setData({
             hasServer:app.globalData.hasServer,
             hasPhone:app.globalData.hasPhone,

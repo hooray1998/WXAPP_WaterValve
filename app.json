@@ -4,7 +4,9 @@
     "pages/logs/logs",
     "pages/device/add/add",
     "pages/mine/mine",
-    "pages/device/device"
+    "pages/device/device",
+    "pages/device/rightManage/right",
+    "pages/device/rightManage/share"
   ],
   "window": {
     "backgroundTextStyle": "light",

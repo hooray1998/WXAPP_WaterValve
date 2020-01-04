@@ -105,12 +105,6 @@ Page({
         name: "position",
         value: this.data.tempValue,
       })
-        if(res){
-          //TODO: 影响到页面的就传过去
-          app.globalData.deviceList[
-            app.globalData.curDeviceIndex
-          ].position = this.data.tempValue
-        }
     } else {
       wx.showToast({
         title: "无控制权限,请输入控制密码",
@@ -191,10 +185,8 @@ Page({
       if (this.data.deviceConfig.password == this.data.tempText) {
         app.addCtrlRight(this, {
           source: 3,
-          aPhone: 'phone_3',
-        })
-        this.setData({
-          ["deviceConfig.pAccess"]: true,
+          phone: app.globalData.phone,
+          aPhone: app.globalData.phone
         })
         wx.showToast({
           title: "密码正确",

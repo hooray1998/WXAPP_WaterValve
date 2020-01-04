@@ -1,0 +1,25 @@
+<!--pages/device/rightManage/right.wxml-->
+<view class="weui-panel__hd">选择分享的权限</view>
+<view class="weui-panel__bd">
+    <view class="weui-cell weui-cell_example ">
+        <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
+        <view class="weui-cell__bd">仅访问</view>
+        <view class="weui-cell__ft"><switch bindchange='addAccess' checked="{{right==1?true:false}}"/></view>
+    </view>
+    <view class="weui-cell weui-cell_example " hidden="{{admin?false:true}}">
+        <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
+        <view class="weui-cell__bd">可访问可控制</view>
+        <view class="weui-cell__ft"><switch bindchange='addCtrl' checked="{{right==2?true:false}}"/></view>
+    </view>
+</view>
+<view class="weui-panel__hd">分享方式</view>
+<view class="weui-panel__bd">
+    <view class="weui-cell weui-cell_example " bindtap='tapSharePhone'>
+        <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
+        <view class="weui-cell__bd">手机号分享</view>
+        <!--<view class="weui-cell__ft">{{deviceConfig.remarkName}}</view>-->
+    </view>
+    <modal hidden="{{hideSharePhone}}" title="请输入手机号" confirm-text="提交" cancel-text="取消" bindcancel="cancelSharePhone" bindconfirm="confirmSharePhone"> 
+        <input type='text' value="{{sharePhone}}" bindinput='getText' auto-focus/>
+    </modal>
+</view>

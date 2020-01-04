@@ -103,25 +103,25 @@ App({
       option.name +
       "=" +
       option.value
-      var app = this
+    var app = this
     wx.request({
       url: url,
       success: function(result) {
         console.log("request device info:###", result.data, "###")
         that.setData({
           deviceInfo: result.data.deviceInfo,
-          res: result.data.res
         })
-          if(!result.data.res){
-              wx.showToast({
-                title: "控制权限已失效",
-                duration: 1000,
-              })
-            that.setData({
-              deviceConfig: result.data.deviceConfig,
-            })
-            app.globalData.deviceList[app.globalData.curDeviceIndex] = result.data.deviceRight
-          }
+        app.globalData.deviceList[app.globalData.curDeviceIndex] =
+          result.data.deviceRight
+        if (!result.data.res) {
+          wx.showToast({
+            title: "控制权限已失效",
+            duration: 1000,
+          })
+          that.setData({
+            deviceConfig: result.data.deviceConfig,
+          })
+        }
       },
     })
   },
@@ -136,6 +136,7 @@ App({
       option.name +
       "=" +
       option.value
+    var app = this
     wx.request({
       url: url,
       success: function(result) {
@@ -143,13 +144,14 @@ App({
         that.setData({
           deviceConfig: result.data.deviceConfig,
         })
-          if(!result.data.res){
-              wx.showToast({
-                title: "控制权限已失效",
-                duration: 1000,
-              })
-            app.globalData.deviceList[app.globalData.curDeviceIndex] = result.data.deviceRight
-          }
+        app.globalData.deviceList[app.globalData.curDeviceIndex] =
+          result.data.deviceRight
+        if (!result.data.res) {
+          wx.showToast({
+            title: "控制权限已失效",
+            duration: 1000,
+          })
+        }
       },
     })
   },
@@ -173,7 +175,7 @@ App({
     var url =
       this.globalData.server +
       "addCtrlRight?phone=" +
-      this.globalData.phone +
+      option.phone +
       "&deviceId=" +
       this.globalData.curDeviceId +
       "&source=" +
@@ -185,6 +187,30 @@ App({
       url: url,
       success: function(result) {
         console.log("add ctrl right:###", result.data, "###")
+        that.setData({
+          deviceConfig: result.data.deviceConfig,
+        })
+        app.globalData.deviceList[app.globalData.curDeviceIndex] =
+          result.data.deviceRight
+      },
+    })
+  },
+  addAccessRight: function(that, option) {
+    var url =
+      this.globalData.server +
+      "addAccessRight?phone=" +
+      option.phone +
+      "&deviceId=" +
+      this.globalData.curDeviceId +
+      "&source=" +
+      option.source +
+      "&aPhone=" +
+      option.aPhone
+    var app = this
+    wx.request({
+      url: url,
+      success: function(result) {
+        console.log("add access right:###", result.data, "###")
         that.setData({
           deviceConfig: result.data.deviceConfig,
         })
@@ -212,16 +238,15 @@ App({
       },
     })
   },
-//## addDevice        | phone,serialNum,source         | deviceList
-    addDevice: function(that, option){
-
+  //## addDevice        | phone,serialNum,source         | deviceList
+  addDevice: function(that, option) {
     var url =
       this.globalData.server +
       "addDevice?phone=" +
       this.globalData.phone +
       "&serialNum=" +
       option.serialNum +
-      '&source=' +
+      "&source=" +
       option.source
     var app = this
     wx.request({
@@ -229,7 +254,47 @@ App({
       success: function(result) {
         console.log("add Device:###", result.data, "###")
         app.getDeviceList(that)
-    }
+      },
     })
-    },
+  },
+  getRightList: function(that){
+    var url =
+      this.globalData.server +
+      "rightList?phone=" +
+      this.globalData.phone +
+      "&deviceId=" +
+      this.globalData.curDeviceId;
+    var app = this
+    wx.request({
+      url: url,
+      success: function(result) {
+        console.log("add Device:###", result.data, "###")
+          that.setData({
+              rightList: result.data.rightList
+          })
+      },
+    })
+
+  },
+    delDeviceRight: function(that, phone){
+    var url =
+      this.globalData.server +
+      "delRight?phone=" +
+      phone +
+      "&admPhone=" +
+      this.globalData.phone +
+      "&deviceId=" +
+      this.globalData.curDeviceId;
+        var app = this
+        wx.request({
+          url: url,
+          success: function(result) {
+            console.log("del Device right:###", result.data, "###")
+              that.setData({
+                  rightList: result.data.rightList
+              })
+          },
+        })
+
+    }
 })
