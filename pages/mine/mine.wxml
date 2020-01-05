@@ -1,29 +1,54 @@
 <!--pages/mine/mine.wxml-->
 <view class="page">
-    <view class="userinfo">
-        <open-data type="userAvatarUrl"></open-data>
-        <open-data type="userNickName" lang="zh_CN"></open-data>
-        <text>ip:{{server}}</text>
-        <text>phone:{{phone}}</text>
+    <view class="weui-cell">
+                <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+
+                    <open-data style="width: 50px; height: 50px; display: block" type="userAvatarUrl"></open-data>
+                    <!--<image src="/image/sf.jpg" style="width: 50px; height: 50px; display: block"/>-->
+                    <view class="weui-badge" style="position: absolute;top: -.4em;right: -.4em;">8</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <open-data type="userNickName" lang="zh_CN"></open-data>
+                    <!--<view>联系人名称</view>-->
+                    <view style="font-size: 13px;color: #888888;">{{phone}}</view>
+                </view>
     </view>
 
-    <form class="page__bd" catchsubmit="formSubmit" catchreset="formReset">
+    <view class="weui-cell weui-cell_example " bindtap='tapServer'>
+        <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
+        <view class="weui-cell__bd">IP</view>
+        <view class="weui-cell__ft">{{server?server:'未设置'}}</view><icon type="{{server? 'success':'warn'}}" size="23"></icon>
+    </view>
+    <modal hidden="{{hideServer}}" title="请输入IP" confirm-text="提交" cancel-text="取消" bindcancel="cancelServer" bindconfirm="confirmServer"> 
+        <input type='text' value="" bindinput='getText' auto-focus/>
+    </modal>
 
-        <view class="section" hidden="{{hasServer}}">
-            <view class="section__title">ip</view>
-            <input name="server" placeholder="{{server}}" />
-        </view>
+    <view class="weui-cell weui-cell_example " bindtap='tapPhone'>
+        <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
+        <view class="weui-cell__bd">手机号</view>
+        <view class="weui-cell__ft">{{phone?phone:'未绑定'}}</view><icon type="{{phone!=''? 'success':'warn'}}" size="23"></icon>
+    </view>
+    <modal hidden="{{hidePhone}}" title="请输入手机号" confirm-text="提交" cancel-text="取消" bindcancel="cancelPhone" bindconfirm="confirmPhone"> 
+        <input type='text' value="{{phone}}" bindinput='getText' auto-focus/>
+    </modal>
 
-        <view class="section" hidden="{{hasPhone}}">
-            <view class="section__title">phone</view>
-            <input name="phone" placeholder="phone_1" />
-        </view>
-        <view class="section">
-            <view class="section__title" style="color:red">{{status}}</view>
-        </view>
-        <view class="btn-area">
-            <button  hidden="{{hasPhone}}" formType="submit">Submit</button>
-            <button formType="reset">Reset</button>
-        </view>
-    </form>
+    <!--<form class="page__bd" catchsubmit="formSubmit" catchreset="formReset">-->
+
+        <!--<view class="section" hidden="{{hasServer}}">-->
+            <!--<view class="section__title">ip</view>-->
+            <!--<input name="server" placeholder="{{server}}" />-->
+        <!--</view>-->
+
+        <!--<view class="section" hidden="{{hasPhone}}">-->
+            <!--<view class="section__title">phone</view>-->
+            <!--<input name="phone" placeholder="phone_1" />-->
+        <!--</view>-->
+        <!--<view class="section">-->
+            <!--<view class="section__title" style="color:red">{{status}}</view>-->
+        <!--</view>-->
+        <!--<view class="btn-area">-->
+            <!--<button  hidden="{{hasPhone}}" formType="submit">Submit</button>-->
+            <!--<button formType="reset">Reset</button>-->
+        <!--</view>-->
+    <!--</form>-->
 </view>

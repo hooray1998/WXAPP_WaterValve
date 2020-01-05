@@ -3,15 +3,18 @@
     <!--  wxef0519d42d63eaf7   8ac05353cf3caf74c80e47db9dc01c67  -->
     <view class="weui-cell">
                 <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
-                    <image src="/image/sf.jpg" style="width: 50px; height: 50px; display: block"/>
+
+                    <open-data style="width: 50px; height: 50px; display: block" type="userAvatarUrl"></open-data>
+                    <!--<image src="/image/sf.jpg" style="width: 50px; height: 50px; display: block"/>-->
                     <view class="weui-badge" style="position: absolute;top: -.4em;right: -.4em;">8</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <view>联系人名称</view>
-                    <view style="font-size: 13px;color: #888888;">摘要信息</view>
+                    <open-data type="userNickName" lang="zh_CN"></open-data>
+                    <view style="font-size: 13px;color: #888888;">{{phone?phone:'请先绑定手机号'}}</view>
                 </view>
-                <view class="button-wrapper">
-                  <button class="weui-btn mini-btn" type="default" size="mini" bindtap="addDevice">添加</button>
+                <view  bindtap="addDevice" class="button-wrapper">
+                  <!--<button class="weui-btn mini-btn" type="default" size="mini" bindtap="addDevice">添加</button>-->
+                  <image class='scan' bindtap='scanCode' src='/image/scanCode.png' style="width:80rpx;height:80rpx"></image>
                 </view>
     </view>
     

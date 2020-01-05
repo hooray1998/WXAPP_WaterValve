@@ -1,113 +1,130 @@
 const app = getApp()
 Page({
     data: {
-        server:null,
-        phone:null,
-        hasServer:false,
-        hasPhone:false,
+        server:false,
+        phone:'',
+        hideServer:true,
+        hidePhone:true,
         status:''
     },
     onLoad: function () {
         console.log('onload mine:')
         this.setData({
-            hasServer:app.globalData.hasServer,
-            hasPhone:app.globalData.hasPhone,
             server:app.globalData.server,
             phone:app.globalData.phone
         })
     },
-    formSubmit: function(e) {
-        console.log('form发生了submit事件，携带数据为：', e.detail.value)
-        if(!this.data.hasServer){
-            this.setData({
-                server:'http://'+ e.detail.value.server +':8000/'
+    getText: function(e) {
+        this.setData({ tempText: e.detail.value })
+    },
+  tapServer: function(e) {
+    this.setData({ hideServer: false })
+  },
+  confirmServer: function(e) {
+    this.setData({
+      hideServer: true,
+    })
+        this.data.tempText = 'http://'+ this.data.tempText +':8000/'
+            var url = '';
+      if(app.globalData.openid){
+       url = this.data.tempText + "getPhone?openid=" + app.globalData.openid
+      }else{
+       url = this.data.tempText + "getOpenId?code=" + app.globalData.code
+      }
+        var that = this
+        wx.request({
+            url: url,
+            success: function (result) {
+
+
+              if(result.data.res){
+                app.globalData.server = that.data.tempText;
+                wx.setStorageSync('server', app.globalData.server);
+
+                if('' == app.globalData.openid){
+                    console.log('getOpenId:###', result,"###");
+                    app.globalData.openid = result.data.openid;
+                    wx.setStorageSync("openid", app.globalData.openid)
+                }
+                app.globalData.phone = result.data.phone;
+                app.globalData.deviceList = result.data.deviceList;
+                    that.setData({
+                        server: app.globalData.server,
+                        phone: app.globalData.phone
+                    })
+                if(app.globalData.phone==""){
+                    that.setData({
+                        phone: ''
+                    })
+                  wx.showToast({
+                    title: "请绑定手机号",
+                    duration: 1000,
+                  })
+                }
+              }else{
+              app.globalData.phone = '';
+              app.globalData.server = false
+            that.setData({
+                server: app.globalData.server,
+                phone: app.globalData.phone
             })
-        }
-        console.log('form发生了submit事件，携带数据为：', e.detail.value)
-        if(!this.data.hasPhone){
-            this.setData({
-                phone : e.detail.value.phone
-            })
-        }
-        app.globalData.server = this.data.server
-        app.globalData.phone = this.data.phone
-
-
-        app.globalData.openid || wx.login({
-            success: res => {
-                // 发送 res.code 到后台换取 openId, sessionKey, unionId
-                //请求自己后台获取用户openid
-                console.log('#'+res.code)
-                app.globalData.code = res.code
-                var url = this.data.server+'getOpenId?code='+res.code;
-                var that = this
-
-                wx.request({
-                    url: url,
-                    success: function (result) {
-                        console.log('getOpenId:###', result,"###");
-                        app.globalData.openid = result.data.openid;
-                        wx.setStorageSync('openid', app.globalData.openid)
-
-                        that.setData({
-                            hasServer:true,
-                            status:'获取微信ID成功'
-                        })
-                        app.globalData.server = that.data.server
-                        app.globalData.hasServer = true
-                        wx.setStorageSync('server', app.globalData.server)
-                        wx.setStorageSync('hasServer', app.globalData.hasServer)
-
-
-                        var url = that.data.server+'bindPhone?openid='+result.data.openid+'&phone='+that.data.phone;
-                        var that2 = that
-                        wx.request({
-                            url: url,
-                            success: function (result) {
-                                if(result.data.res){
-                                    console.log('bindPhone:###', result.data,"###");
-                                    app.globalData.phone = that2.data.phone
-                                    app.globalData.hasPhone = true
-                                    wx.setStorageSync('phone', app.globalData.phone)
-                                    wx.setStorageSync('hasPhone', app.globalData.hasPhone)
-                                    that2.setData({
-                                        hasPhone:true,
-                                        status:'绑定手机号成功'
-                                    })
-                                    that2.onLoad()
-
-                                }
-                                else{
-                                    that2.setData({
-                                        hasPhone:false,
-                                        status:'绑定手机号失败，手机号已被使用'
-                                    })
-                                }
-                            },
-                            fail: function(result){
-                                that2.setData({
-                                    hasPhone:false,
-                                    status:'绑定手机号失败,检查服务器ip是否正确'
-                                })
-                            }
-                        })
-                    },
-                    fail: function(result){
-                        that.setData({
-                            hasServer:false,
-                            status:'获取微信ID失败,检查服务器ip是否正确'
-                        })
-                    }
+                  wx.showToast({
+                    title: "服务器无外网",
+                    duration: 1000,
+                  })
+              }
+            },
+            fail: function(){
+                app.globalData.phone = '';
+                app.globalData.server = false
+                that.setData({
+                    server: app.globalData.server,
+                    phone: app.globalData.phone
                 })
+              wx.showToast({
+                title: "连接服务器失败",
+                duration: 1000,
+              })
             }
         })
-    },
-    formReset: function(e){
-        this.setData({
-            hasServer:false,
-            hasPhone:false,
-            server: '',
-            phone: '',
-        })
-    },
+  },
+  cancelServer: function(e) {
+    this.setData({ hideServer: true })
+  },
+  tapPhone: function(e) {
+    this.setData({ hidePhone: false })
+  },
+  confirmPhone: function(e) {
+    this.setData({
+      hidePhone: true,
+    })
+
+    var url = app.globalData.server+'bindPhone?openid='+app.globalData.openid+'&phone='+this.data.tempText;
+    var that2 = this
+    console.log('bindPhone:url:', url,"###");
+    wx.request({
+        url: url,
+        success: function (result) {
+            if(result.data.res){
+                console.log('bindPhone:###', result.data,"###");
+                app.globalData.phone = that2.data.tempText
+                  wx.showToast({
+                    title: "绑定成功",
+                    duration: 1000,
+                  })
+                that2.setData({ phone: that2.data.tempText })
+            }
+            else{
+                  wx.showToast({
+                    title: "-绑定手机号失败，手机号已被使用",
+                    duration: 1000,
+                  })
+            }
+        }
+    })
+  },
+  cancelPhone: function(e) {
+    this.setData({ hidePhone: true })
+  },
+
 })

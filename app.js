@@ -1,12 +1,10 @@
 //app.js
 App({
   globalData: {
-    hasServer: false,
-    hasPhone: false,
     code: null,
-    openid: null,
-    server: null,
-    phone: "phone_1",
+    openid: "",
+    server: false,
+    phone: "",
 
     deviceList: [],
     curDeviceIndex: 0,
@@ -17,11 +15,58 @@ App({
 
   onLaunch: function() {
     // 展示本地存储能力
-    this.globalData.hasServer = wx.getStorageSync("hasServer") || false
-    this.globalData.hasPhone = wx.getStorageSync("hasPhone") || false
-    this.globalData.server = wx.getStorageSync("server") || "192.168.1.0"
-    this.globalData.phone = wx.getStorageSync("phone") || ""
-    this.globalData.openid = wx.getStorageSync("openid") || null
+  },
+  initLogin: function(app, that) {
+    var url = 0;
+      if(app.globalData.openid){
+       url = app.globalData.server + "getPhone?openid=" + app.globalData.openid
+      }else{
+       url = app.globalData.server + "getOpenId?code=" + app.globalData.code
+      }
+      var app = app;
+      var that = that;
+    wx.request({
+      url: url,
+      success: function(result) {
+          if(result.data.res){
+            wx.setStorageSync("server", app.globalData.server)
+
+            if('' == app.globalData.openid){
+                console.log("getOpenId:###", result, "###")
+                app.globalData.openid = result.data.openid
+                wx.setStorageSync("openid", app.globalData.openid)
+            }
+            app.globalData.phone = result.data.phone
+            app.globalData.deviceList = result.data.deviceList
+            if (app.globalData.phone == "") {
+              wx.showToast({
+                title: "请绑定手机号",
+                duration: 1000,
+              })
+            }
+            that.setData({
+              phone: app.globalData.phone,
+              deviceList: app.globalData.deviceList,
+            })
+          }
+          else{
+              app.globalData.server = false
+              wx.showToast({
+                title: "服务器无外网",
+                duration: 1000,
+              })
+
+          }
+      },
+      fail: function() {
+        app.globalData.phone = ""
+        app.globalData.server = false
+        wx.showToast({
+          title: "连接服务器失败，请先配置服务器ip",
+          duration: 1000,
+        })
+      },
+    })
   },
   getDeviceList: function(that) {
     var url =
@@ -187,11 +232,13 @@ App({
       url: url,
       success: function(result) {
         console.log("add ctrl right:###", result.data, "###")
-        that.setData({
-          deviceConfig: result.data.deviceConfig,
-        })
-        app.globalData.deviceList[app.globalData.curDeviceIndex] =
-          result.data.deviceRight
+        if (option.source == 3) {
+          that.setData({
+            deviceConfig: result.data.deviceConfig,
+          })
+          app.globalData.deviceList[app.globalData.curDeviceIndex] =
+            result.data.deviceRight
+        }
       },
     })
   },
@@ -210,12 +257,12 @@ App({
     wx.request({
       url: url,
       success: function(result) {
-        console.log("add access right:###", result.data, "###")
-        that.setData({
-          deviceConfig: result.data.deviceConfig,
+        if (result.data.res)
+          console.log("add access right:###", result.data, "###")
+        wx.showToast({
+          title: "成功",
+          duration: 1000,
         })
-        app.globalData.deviceList[app.globalData.curDeviceIndex] =
-          result.data.deviceRight
       },
     })
   },
@@ -252,31 +299,50 @@ App({
     wx.request({
       url: url,
       success: function(result) {
-        console.log("add Device:###", result.data, "###")
-        app.getDeviceList(that)
+        if (result.data.res) {
+          console.log("add Device:###", result.data, "###")
+          wx.showToast({
+            title: "添加成功",
+            duration: 1000,
+          })
+        } else {
+          wx.showToast({
+            title: "重复添加",
+            duration: 1000,
+          })
+        }
+        app.globalData.deviceList = result.data.deviceList
+        that.setData({
+          deviceList: result.data.deviceList,
+        })
+      },
+      fail: function() {
+        wx.showToast({
+          title: "服务器异常",
+          duration: 1000,
+        })
       },
     })
   },
-  getRightList: function(that){
+  getRightList: function(that) {
     var url =
       this.globalData.server +
       "rightList?phone=" +
       this.globalData.phone +
       "&deviceId=" +
-      this.globalData.curDeviceId;
+      this.globalData.curDeviceId
     var app = this
     wx.request({
       url: url,
       success: function(result) {
         console.log("add Device:###", result.data, "###")
-          that.setData({
-              rightList: result.data.rightList
-          })
+        that.setData({
+          rightList: result.data.rightList,
+        })
       },
     })
-
   },
-    delDeviceRight: function(that, phone){
+  delDeviceRight: function(that, phone) {
     var url =
       this.globalData.server +
       "delRight?phone=" +
@@ -284,17 +350,16 @@ App({
       "&admPhone=" +
       this.globalData.phone +
       "&deviceId=" +
-      this.globalData.curDeviceId;
-        var app = this
-        wx.request({
-          url: url,
-          success: function(result) {
-            console.log("del Device right:###", result.data, "###")
-              that.setData({
-                  rightList: result.data.rightList
-              })
-          },
+      this.globalData.curDeviceId
+    var app = this
+    wx.request({
+      url: url,
+      success: function(result) {
+        console.log("del Device right:###", result.data, "###")
+        that.setData({
+          rightList: result.data.rightList,
         })
-
-    }
+      },
+    })
+  },
 })

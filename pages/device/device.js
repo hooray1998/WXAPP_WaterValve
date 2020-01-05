@@ -174,9 +174,9 @@ Page({
       app.updatePassword(this, {
         password: this.data.tempText,
       })
-        this.setData({
-          ["deviceConfig.password"]:  this.data.tempText,
-        })
+      this.setData({
+        ["deviceConfig.password"]: this.data.tempText,
+      })
       wx.showToast({
         title: "更新成功",
         duration: 1000,
@@ -186,7 +186,7 @@ Page({
         app.addCtrlRight(this, {
           source: 3,
           phone: app.globalData.phone,
-          aPhone: app.globalData.phone
+          aPhone: app.globalData.phone,
         })
         wx.showToast({
           title: "密码正确",

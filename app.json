@@ -30,9 +30,12 @@
         "pagePath": "pages/mine/mine",
         "iconPath": "image/icon_API.png",
         "selectedIconPath": "image/icon_API_HL.png",
-        "text": "接口"
+        "text": "我的"
       }
     ]
+  },
+  "networkTimeout": {
+    "request": 3000
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

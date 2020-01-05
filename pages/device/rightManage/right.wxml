@@ -8,10 +8,11 @@
                 <view class="weui-cell__bd">{{item.phone}}</view>
                 <view class="weui-cell">{{item.aAccess}}</view>
                 <view class="weui-cell__ft">{{item.pAccess}}</view>
-                  <checkbox name="{{item.phone}}" checked="false"/>
+                <checkbox name="{{item.phone}}" value="{{item.phone}}"/>
             </view>
     </view>
         <!--<label class="checkbox">-->
         <!--</label>-->
       </checkbox-group>
-      <button hidden="chooseDevice.length==0?'true':'false'" bindtap='delCheckDevice'>删除所选</button>
+      <button hidden="{{hideButton}}" bindtap='delCheckDevice'>删除所选</button>
+      <!--<button hidden="{{hideButton?'true':'false'}}" bindtap='delCheckDevice'>删除所选</button>-->
