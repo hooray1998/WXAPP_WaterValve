@@ -125,11 +125,11 @@
                 <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </navigator>
         
-    password:{{deviceConfig.password}},
-    source:{{deviceConfig.source}},
-    aAccess:{{deviceConfig.aAccess}},
-    pAccess:{{deviceConfig.pAccess}},
-    aPhone:{{deviceConfig.aPhone}},
+    <!--password:{{deviceConfig.password}},-->
+    <!--source:{{deviceConfig.source}},-->
+    <!--aAccess:{{deviceConfig.aAccess}},-->
+    <!--pAccess:{{deviceConfig.pAccess}},-->
+    <!--aPhone:{{deviceConfig.aPhone}},-->
         <button hidden="{{admin}}" class="weui-btn" type="warn" bindtap='delDevice'>删除设备</button>
 </view>
 <view hidden="{{currentTab == 2? false: true}}">

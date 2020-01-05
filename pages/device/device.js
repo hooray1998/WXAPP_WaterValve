@@ -79,7 +79,9 @@ Page({
       })
     } else {
       wx.showToast({
-        title: "无控制权限,请先输入控制密码",
+        title: "无控制权限",
+        icon:'none',
+
         duration: 1000,
       })
     }
@@ -102,7 +104,8 @@ Page({
       })
     } else {
       wx.showToast({
-        title: "无控制权限,请先输入控制密码",
+        title: "无控制权限",
+        icon:'none',
         duration: 1000,
       })
     }
@@ -131,7 +134,8 @@ Page({
       })
     } else {
       wx.showToast({
-        title: "无控制权限,请先输入控制密码",
+        title: "无控制权限",
+        icon:'none',
         duration: 1000,
       })
     }
@@ -154,7 +158,8 @@ Page({
       })
     } else {
       wx.showToast({
-        title: "无控制权限,请输入控制密码",
+        title: "无控制权限",
+        icon:'none',
         duration: 1000,
       })
     }
@@ -172,7 +177,8 @@ Page({
       })
     } else {
       wx.showToast({
-        title: "无控制权限,请输入控制密码",
+        title: "无控制权限",
+        icon:'none',
         duration: 1000,
       })
     }
@@ -191,7 +197,8 @@ Page({
       })
     } else {
       wx.showToast({
-        title: "无控制权限,请输入控制密码",
+        title: "无控制权限",
+        icon:'none',
         duration: 1000,
       })
     }
@@ -244,6 +251,7 @@ Page({
       } else {
         wx.showToast({
           title: "控制密码不正确",
+        icon:'none',
           duration: 1000,
         })
       }
