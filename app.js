@@ -28,6 +28,7 @@ App({
     wx.request({
       url: url,
       success: function(result) {
+          console.log('initLogin:',result.data)
           if(result.data.res){
             wx.setStorageSync("server", app.globalData.server)
 

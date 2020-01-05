@@ -14,6 +14,8 @@ Page({
     hidePosition: true,
     hideAccuracy: true,
     hideRemarkName: true,
+    hideRemark: true,
+    hideName: true,
     hidePassword: true,
     //这里只做tab名和显示图标
     items: [
@@ -63,6 +65,51 @@ Page({
     this.setData({ tempValue: e.detail.value })
   },
 
+  tapName: function(e) {
+    this.setData({ hideName: false })
+  },
+  confirmName: function(e) {
+    this.setData({
+      hideName: true,
+    })
+    if (app.globalData.ctrl) {
+      app.modifyDeviceConfig(this, {
+        name: "name",
+        value: this.data.tempText,
+      })
+    } else {
+      wx.showToast({
+        title: "无控制权限,请先输入控制密码",
+        duration: 1000,
+      })
+    }
+  },
+  cancelName: function(e) {
+    this.setData({ hideName: true })
+  },
+
+  tapRemark: function(e) {
+    this.setData({ hideRemark: false })
+  },
+  confirmRemark: function(e) {
+    this.setData({
+      hideRemark: true,
+    })
+    if (app.globalData.ctrl) {
+      app.modifyDeviceConfig(this, {
+        name: "remark",
+        value: this.data.tempText,
+      })
+    } else {
+      wx.showToast({
+        title: "无控制权限,请先输入控制密码",
+        duration: 1000,
+      })
+    }
+  },
+  cancelRemark: function(e) {
+    this.setData({ hideRemark: true })
+  },
   tapRemarkName: function(e) {
     this.setData({ hideRemarkName: false })
   },

@@ -65,11 +65,15 @@
         </view>
 
 
-        <view class="weui-cell weui-cell_example ">
+
+        <view class="weui-cell weui-cell_example " bindtap='tapName'>
             <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
             <view class="weui-cell__bd">设备名</view>
             <view class="weui-cell__ft">{{deviceConfig.name}}</view>
         </view>
+        <modal hidden="{{hideName}}" title="请输入设备名" confirm-text="提交" cancel-text="取消" bindcancel="cancelName" bindconfirm="confirmName"> 
+            <input type='text' value="{{deviceConfig.name}}" bindinput='getText' auto-focus/>
+        </modal>
 
         <view class="weui-cell weui-cell_example " bindtap='tapRemarkName'>
             <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
@@ -84,11 +88,14 @@
             <view class="weui-cell__bd">序列号</view>
             <view class="weui-cell__ft">{{deviceConfig.serialNum}}</view>
         </view>
-        <view class="weui-cell weui-cell_example ">
+        <view class="weui-cell weui-cell_example " bindtap='tapRemark'>
             <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
             <view class="weui-cell__bd">备注信息</view>
             <view class="weui-cell__ft">{{deviceConfig.remark}}</view>
         </view>
+        <modal hidden="{{hideRemark}}" title="请输入备注信息" confirm-text="提交" cancel-text="取消" bindcancel="cancelRemark" bindconfirm="confirmRemark"> 
+            <input type='text' value="{{deviceConfig.remark}}" bindinput='getText' auto-focus/>
+        </modal>
         <view hidden="{{admin?false:true}}" class="weui-cell weui-cell_example ">
             <view class="weui-cell__hd"> <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> </view>
             <view class="weui-cell__bd">访问控制</view>

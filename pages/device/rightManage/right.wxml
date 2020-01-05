@@ -4,10 +4,10 @@
 
       <checkbox-group bindchange="checkboxChange">
       <view class="weui-cells weui-cells_after-title"  wx:for="{{rightList}}">
-            <view class="weui-cell">
-                <view class="weui-cell__bd">{{item.phone}}</view>
-                <view class="weui-cell">{{item.aAccess}}</view>
-                <view class="weui-cell__ft">{{item.pAccess}}</view>
+            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                <view class="weui-media-box__title">{{item.phone}}</view>
+                <view class="weui-media-box__desc">{{item.aAccess+item.pAccess)?'访问+控制':'访问'}}</view>
+                <view class="weui-media-box__desc">{{item.aAccess==1?'授权人:':''}}{{item.aAccess==1?item.aPhone:''}}</view>
                 <checkbox name="{{item.phone}}" value="{{item.phone}}"/>
             </view>
     </view>
