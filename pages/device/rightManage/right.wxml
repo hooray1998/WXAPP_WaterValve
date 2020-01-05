@@ -2,17 +2,21 @@
 <view class="weui-panel__hd">用户权限列表</view>
 
 
+      <!--<checkbox-group bindchange="checkboxChange">-->
+      <!--<view class="weui-cells weui-cells_after-title">-->
+            <!--<view class="weui-media-box__bd weui-media-box__bd_in-appmsg">-->
+                <!--<view class="weui-media-box"><checkbox name="item.phone}}" value="item.phone}}"/>   item.phone}} (item.aAccess+item.pAccess)?'访问+控制':'访问'}}  item.aPhone?item.aPhone:''}}</view>-->
+            <!--</view>-->
+    <!--</view>-->
+      <!--</checkbox-group>-->
+      <!--<button hidden="{{hideButton}}" bindtap='delCheckDevice'>删除所选</button>-->
+
       <checkbox-group bindchange="checkboxChange">
       <view class="weui-cells weui-cells_after-title"  wx:for="{{rightList}}">
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                <view class="weui-media-box__title">{{item.phone}}</view>
-                <view class="weui-media-box__desc">{{item.aAccess+item.pAccess)?'访问+控制':'访问'}}</view>
-                <view class="weui-media-box__desc">{{item.aAccess==1?'授权人:':''}}{{item.aAccess==1?item.aPhone:''}}</view>
-                <checkbox name="{{item.phone}}" value="{{item.phone}}"/>
+                <view class="weui-media-box"><checkbox name="{{item.phone}}" value="{{item.phone}}"/>   {{item.phone}} {{(item.aAccess+item.pAccess)?'访问+控制权限':'访问权限'}}  {{item.aPhone?'授权人:':''}}{{item.aPhone?item.aPhone:''}}</view>
             </view>
     </view>
-        <!--<label class="checkbox">-->
-        <!--</label>-->
       </checkbox-group>
       <button hidden="{{hideButton}}" bindtap='delCheckDevice'>删除所选</button>
       <!--<button hidden="{{hideButton?'true':'false'}}" bindtap='delCheckDevice'>删除所选</button>-->

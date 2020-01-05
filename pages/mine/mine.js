@@ -39,6 +39,7 @@ Page({
 
               if(result.data.res){
                 app.globalData.server = that.data.tempText;
+                  that.data.tempText = ''
                 wx.setStorageSync('server', app.globalData.server);
 
                 if('' == app.globalData.openid){
@@ -58,7 +59,8 @@ Page({
                     })
                   wx.showToast({
                     title: "请绑定手机号",
-                    duration: 1000,
+                    icon:'none',
+                    duration: 3000,
                   })
                 }
               }else{
@@ -70,7 +72,8 @@ Page({
             })
                   wx.showToast({
                     title: "服务器无外网",
-                    duration: 1000,
+                    icon:'none',
+                    duration: 3000,
                   })
               }
             },
@@ -83,7 +86,8 @@ Page({
                 })
               wx.showToast({
                 title: "连接服务器失败",
-                duration: 1000,
+                    icon:'none',
+                duration: 3000,
               })
             }
         })
@@ -98,6 +102,8 @@ Page({
     this.setData({
       hidePhone: true,
     })
+
+      if(this.data.tempText){
 
     var url = app.globalData.server+'bindPhone?openid='+app.globalData.openid+'&phone='+this.data.tempText;
     var that2 = this
@@ -116,12 +122,15 @@ Page({
             }
             else{
                   wx.showToast({
-                    title: "-绑定手机号失败，手机号已被使用",
-                    duration: 1000,
+                    title: "号码已被使用",
+                    icon:'none',
+                    duration: 3000,
                   })
             }
         }
     })
+
+      }
   },
   cancelPhone: function(e) {
     this.setData({ hidePhone: true })

@@ -42,7 +42,8 @@ App({
             if (app.globalData.phone == "") {
               wx.showToast({
                 title: "请绑定手机号",
-                duration: 1000,
+                    icon:'none',
+                duration: 3000,
               })
             }
             that.setData({
@@ -54,7 +55,8 @@ App({
               app.globalData.server = false
               wx.showToast({
                 title: "服务器无外网",
-                duration: 1000,
+                    icon:'none',
+                duration: 3000,
               })
 
           }
@@ -63,8 +65,9 @@ App({
         app.globalData.phone = ""
         app.globalData.server = false
         wx.showToast({
-          title: "连接服务器失败，请先配置服务器ip",
-          duration: 1000,
+          title: "连接服务器失败",
+                    icon:'none',
+          duration: 3000,
         })
       },
     })
@@ -162,7 +165,8 @@ App({
         if (!result.data.res) {
           wx.showToast({
             title: "控制权限已失效",
-            duration: 1000,
+                    icon:'none',
+            duration: 3000,
           })
           that.setData({
             deviceConfig: result.data.deviceConfig,
@@ -195,7 +199,8 @@ App({
         if (!result.data.res) {
           wx.showToast({
             title: "控制权限已失效",
-            duration: 1000,
+                    icon:'none',
+            duration: 3000,
           })
         }
       },
@@ -239,6 +244,7 @@ App({
           })
           app.globalData.deviceList[app.globalData.curDeviceIndex] =
             result.data.deviceRight
+          app.globalData.ctrl = true
         }
       },
     })
@@ -320,7 +326,8 @@ App({
       fail: function() {
         wx.showToast({
           title: "服务器异常",
-          duration: 1000,
+                    icon:'none',
+          duration: 3000,
         })
       },
     })
@@ -360,6 +367,26 @@ App({
         that.setData({
           rightList: result.data.rightList,
         })
+      },
+    })
+  },
+  delDevice: function(that, phone) {
+    var url =
+      this.globalData.server +
+      "delDevice?phone=" +
+      phone +
+      "&deviceId=" +
+      this.globalData.curDeviceId
+    var app = this
+    wx.request({
+      url: url,
+      success: function(result) {
+        console.log("del Device:###", result.data, "###")
+        wx.showToast({
+          title: "操作成功",
+          duration: 2000,
+        })
+        wx.navigateBack()
       },
     })
   },

@@ -200,9 +200,11 @@ Page({
     this.setData({ hideAccuracy: true })
   },
   openAccessCtrl: function(e) {
+    app.startAccessCtrl(this)
     this.setData({
       ["deviceConfig.accessCtrl"]: true,
     })
+
   },
   tapPassword: function(e) {
     if (this.data.admin) {
@@ -250,4 +252,7 @@ Page({
   cancelPassword: function(e) {
     this.setData({ hidePassword: true })
   },
+    delDevice: function(){
+        app.delDevice(this, app.globalData.phone)
+    },
 })

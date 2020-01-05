@@ -20,7 +20,7 @@
         <view class="weui-cell__ft">{{server?server:'未设置'}}</view><icon type="{{server? 'success':'warn'}}" size="23"></icon>
     </view>
     <modal hidden="{{hideServer}}" title="请输入IP" confirm-text="提交" cancel-text="取消" bindcancel="cancelServer" bindconfirm="confirmServer"> 
-        <input type='text' value="" bindinput='getText' auto-focus/>
+        <input type='text' value="192.168." bindinput='getText' auto-focus/>
     </modal>
 
     <view class="weui-cell weui-cell_example " bindtap='tapPhone'>
