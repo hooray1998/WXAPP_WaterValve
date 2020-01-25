@@ -5,6 +5,7 @@ Page({
     res: false,
     array: ["打开", "关闭"],
     admin: 0,
+    backspace:' ',
     currentTab: 0,
     deviceInfo: {},
     deviceConfig: {},
@@ -57,7 +58,18 @@ Page({
     app.getDeviceInfo(this)
     app.getDeviceConfig(this)
   },
-
+  onPullDownRefresh: function () {
+    // 触发下拉刷新时执行
+    if ( this.data.currentTab == 0) {
+      app.getDeviceInfo(this)
+    } else if (this.data.currentTab == 1){
+      app.getDeviceConfig(this)
+    }else{
+      app.getDeviceLog(this)
+    }
+    wx.stopPullDownRefresh();
+    console.log("xiala")
+  },
   getText: function(e) {
     this.setData({ tempText: e.detail.value })
   },

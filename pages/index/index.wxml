@@ -1,6 +1,7 @@
 <!--index.wxml-->
 <view class="container">
     <!--  wxef0519d42d63eaf7   8ac05353cf3caf74c80e47db9dc01c67  -->
+    <view  style="position: relative;margin-right: 10px;">hahah</view>
     <view class="weui-cell">
                 <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
 
@@ -13,7 +14,7 @@
                     <view style="font-size: 13px;color: #888888;">{{phone?phone:'请先绑定手机号'}}</view>
                 </view>
                 <view  bindtap="addDevice" class="button-wrapper">
-                  <!--<button class="weui-btn mini-btn" type="default" size="mini" bindtap="addDevice">添加</button>-->
+                  
                   <image class='scan' bindtap='scanCode' src='/image/scanCode.png' style="width:80rpx;height:80rpx"></image>
                 </view>
     </view>

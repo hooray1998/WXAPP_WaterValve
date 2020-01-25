@@ -171,6 +171,12 @@ App({
           that.setData({
             deviceConfig: result.data.deviceConfig,
           })
+        }else{
+          wx.showToast({
+            title: "操作成功",
+            
+            duration: 1000,
+          })
         }
       },
     })
